@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EntreguX - Plataforma de Entregas Inteligente</title>
+	<meta name="description" content="Software de delivery inteligente com IA. Gerencie entregas, frota e motoristas em tempo real. Escolhido por 500+ empresas.">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+	
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	:root {
+		--primary: #00ff88;
+		--primary-dark: #00d966;
+		--primary-light: #33ffaa;
+		--dark: #000000;
+		--dark-bg: #0a0a0a;
+		--dark-secondary: #111111;
+		--white: #ffffff;
+		--gray-100: #f5f5f5;
+		--gray-200: #e0e0e0;
+		--gray-500: #999999;
+		--gray-600: #666666;
+		--gray-700: #333333;
+		--text-light: #cccccc;
+		--text-muted: #888888;
+	}
+
+	html, body {
+		height: 100%;
+		width: 100%;
+		overflow-x: hidden;
+	}
+
+	body {
+		font-family: 'Inter', sans-serif;
+		background: linear-gradient(135deg, var(--dark) 0%, #0d0d0d 50%, var(--dark) 100%);
+		color: var(--white);
+		line-height: 1.6;
+		font-weight: 400;
+		font-size: 16px;
+		min-height: 100vh;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	p {
+		color: var(--text-light);
+		line-height: 1.8;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	h1 { font-size: clamp(2.5rem, 8vw, 4rem); }
+	h2 { font-size: clamp(1.8rem, 5vw, 2.8rem); }
+	h3 { font-size: 1.5rem; }
+	h4 { font-size: 1.2rem; }
+
+	.container {
+		max-width: 1280px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+
+	/* HEADER */
+	header {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 1000;
+		backdrop-filter: blur(10px);
+		background: rgba(0, 0, 0, 0.7);
+		border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+		padding: 15px 0;
+		animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-100%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.header-content {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 1280px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+
+	.logo {
+		font-size: 1.8rem;
+		font-weight: 900;
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		font-family: 'Poppins', sans-serif;
+		letter-spacing: -1px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		animation: fadeInLeft 0.8s ease;
+	}
+
+	@keyframes fadeInLeft {
+		from {
+			opacity: 0;
+			transform: translateX(-30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	nav {
+		display: flex;
+		gap: 40px;
+		align-items: center;
+	}
+
+	nav a {
+		font-weight: 500;
+		font-size: 0.95rem;
+		color: var(--text-light);
+		position: relative;
+		transition: color 0.3s ease;
+	}
+
+	nav a::after {
+		content: '';
+		position: absolute;
+		bottom: -8px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: linear-gradient(90deg, var(--primary), var(--primary-light));
+		transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	nav a:hover {
+		color: var(--primary);
+	}
+
+	nav a:hover::after {
+		width: 100%;
+	}
+
+	.cta-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 24px;
+		border-radius: 50px;
+		font-weight: 600;
+		font-size: 0.9rem;
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		color: var(--dark);
+		cursor: pointer;
+		border: none;
+		transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.cta-btn:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 20px 50px rgba(0, 255, 136, 0.5);
+	}
+
+	/* HERO */
+	.hero {
+		margin-top: 70px;
+		padding: 100px 0 80px;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		right: -10%;
+		width: 800px;
+		height: 800px;
+		background: radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, transparent 70%);
+		border-radius: 50%;
+		animation: float 6s ease-in-out infinite;
+	}
+
+	.hero::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: -5%;
+		width: 600px;
+		height: 600px;
+		background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+		border-radius: 50%;
+		animation: float 8s ease-in-out infinite reverse;
+	}
+
+	@keyframes float {
+		0%, 100% { transform: translateY(0px); }
+		50% { transform: translateY(30px); }
+	}
+
+	.hero-content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 60px;
+		align-items: center;
+		position: relative;
+		z-index: 2;
+	}
+
+	.hero-text h1 {
+		margin-bottom: 30px;
+		background: linear-gradient(135deg, var(--white) 0%, var(--primary-light) 50%, var(--primary) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		animation: fadeInUp 0.8s ease 0.2s backwards;
+	}
+
+	.hero-text p {
+		font-size: 1.1rem;
+		margin-bottom: 40px;
+		color: var(--text-light);
+		animation: fadeInUp 0.8s ease 0.4s backwards;
+		line-height: 1.8;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.hero-cta {
+		display: flex;
+		gap: 20px;
+		animation: fadeInUp 0.8s ease 0.6s backwards;
+	}
+
+	.hero-cta .cta-btn {
+		padding: 14px 32px;
+		font-size: 1rem;
+	}
+
+	.hero-cta .btn-secondary {
+		background: transparent;
+		border: 2px solid var(--primary);
+		color: var(--primary);
+		box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+	}
+
+	.hero-cta .btn-secondary:hover {
+		background: rgba(0, 255, 136, 0.1);
+		box-shadow: 0 0 40px rgba(0, 255, 136, 0.4);
+	}
+
+	.hero-visual {
+		position: relative;
+		height: 500px;
+		animation: fadeInRight 0.8s ease 0.3s backwards;
+	}
+
+	@keyframes fadeInRight {
+		from {
+			opacity: 0;
+			transform: translateX(50px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	.hero-card {
+		position: absolute;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+		border: 2px solid rgba(0, 255, 136, 0.3);
+		backdrop-filter: blur(10px);
+		border-radius: 20px;
+		padding: 30px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 3rem;
+		animation: float2 4s ease-in-out infinite;
+	}
+
+	@keyframes float2 {
+		0%, 100% { transform: translateY(0px) rotate(0deg); }
+		50% { transform: translateY(-20px) rotate(2deg); }
+	}
+
+	.hero-card-1 {
+		width: 280px;
+		height: 280px;
+		top: 0;
+		right: 0;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.08));
+		border: 2px solid rgba(0, 255, 136, 0.4);
+	}
+
+	.hero-card-2 {
+		width: 220px;
+		height: 220px;
+		bottom: 40px;
+		left: 0;
+		font-size: 2.5rem;
+		animation: float2 5s ease-in-out infinite reverse;
+	}
+
+	.hero-card-3 {
+		width: 180px;
+		height: 180px;
+		bottom: 20%;
+		right: 10%;
+		font-size: 2rem;
+		animation: float2 6s ease-in-out infinite;
+	}
+
+	/* STATS BAR */
+	.stats-bar {
+		background: linear-gradient(90deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 50%, var(--dark-secondary) 100%);
+		border-top: 1px solid rgba(0, 255, 136, 0.2);
+		border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+		padding: 50px 0;
+		margin: 80px 0;
+		position: relative;
+		z-index: 2;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 40px;
+		text-align: center;
+	}
+
+	.stat-item h3 {
+		font-size: 2.5rem;
+		color: var(--primary);
+		margin-bottom: 10px;
+		font-family: 'Poppins', sans-serif;
+	}
+
+	.stat-item p {
+		font-size: 0.95rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 500;
+	}
+
+	/* SOLUTIONS */
+	.solutions {
+		padding: 100px 0;
+		position: relative;
+		z-index: 2;
+	}
+
+	.section-header {
+		text-align: center;
+		margin-bottom: 80px;
+		animation: fadeInUp 0.8s ease backwards;
+	}
+
+	.section-header h2 {
+		margin-bottom: 20px;
+		background: linear-gradient(135deg, var(--white) 0%, var(--primary-light) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.section-header p {
+		font-size: 1.1rem;
+		max-width: 600px;
+		margin: 0 auto;
+		color: var(--text-light);
+	}
+
+	.solutions-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 30px;
+	}
+
+	.solution-card {
+		position: relative;
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 100%);
+		border: 1px solid rgba(0, 255, 136, 0.2);
+		border-radius: 20px;
+		padding: 40px;
+		cursor: pointer;
+		overflow: hidden;
+		transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		animation: fadeInUp 0.8s ease backwards;
+	}
+
+	.solution-card:nth-child(1) { animation-delay: 0.1s; }
+	.solution-card:nth-child(2) { animation-delay: 0.2s; }
+	.solution-card:nth-child(3) { animation-delay: 0.3s; }
+	.solution-card:nth-child(4) { animation-delay: 0.1s; }
+	.solution-card:nth-child(5) { animation-delay: 0.2s; }
+	.solution-card:nth-child(6) { animation-delay: 0.3s; }
+
+	.solution-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 4px;
+		background: linear-gradient(90deg, transparent, var(--primary), transparent);
+		transform: scaleX(0);
+		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		transform-origin: left;
+	}
+
+	.solution-card::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(circle at 30% 30%, rgba(0, 255, 136, 0.1), transparent 80%);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+	}
+
+	.solution-card:hover::before {
+		transform: scaleX(1);
+	}
+
+	.solution-card:hover::after {
+		opacity: 1;
+	}
+
+	.solution-card:hover {
+		border-color: rgba(0, 255, 136, 0.5);
+		transform: translateY(-10px);
+		box-shadow: 0 20px 60px rgba(0, 255, 136, 0.15);
+	}
+
+	.solution-icon {
+		width: 70px;
+		height: 70px;
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		border-radius: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2rem;
+		margin-bottom: 25px;
+		position: relative;
+		z-index: 1;
+		box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+	}
+
+	.solution-card h3 {
+		margin-bottom: 15px;
+		position: relative;
+		z-index: 1;
+		color: var(--white);
+	}
+
+	.solution-card p {
+		position: relative;
+		z-index: 1;
+		color: var(--text-light);
+		font-size: 0.95rem;
+		line-height: 1.8;
+	}
+
+	/* FEATURES */
+	.features {
+		padding: 100px 0;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
+		border-top: 1px solid rgba(0, 255, 136, 0.15);
+		border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+	}
+
+	.features-content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 80px;
+		align-items: center;
+	}
+
+	.features-list {
+		list-style: none;
+	}
+
+	.features-list li {
+		padding: 20px 0;
+		display: flex;
+		align-items: flex-start;
+		gap: 20px;
+		border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+		animation: fadeInLeft 0.8s ease backwards;
+		transition: all 0.3s ease;
+	}
+
+	.features-list li:hover {
+		padding-left: 10px;
+		border-left-color: var(--primary);
+	}
+
+	.features-list li::before {
+		content: '✓';
+		color: var(--primary);
+		font-weight: 900;
+		font-size: 1.5rem;
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		background: rgba(0, 255, 136, 0.1);
+		border-radius: 50%;
+	}
+
+	.features-image {
+		position: relative;
+		height: 500px;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 255, 136, 0.05));
+		border-radius: 30px;
+		border: 2px solid rgba(0, 255, 136, 0.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 6rem;
+		overflow: hidden;
+		animation: fadeInRight 0.8s ease 0.2s backwards;
+		box-shadow: 0 20px 60px rgba(0, 255, 136, 0.1);
+	}
+
+	.features-image::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(circle at 70% 30%, rgba(0, 255, 136, 0.2), transparent 60%);
+		animation: pulse 4s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% { opacity: 0.5; }
+		50% { opacity: 1; }
+	}
+
+	/* CASES */
+	.cases {
+		padding: 100px 0;
+	}
+
+	.cases-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+		gap: 30px;
+	}
+
+	.case-card {
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 100%);
+		border: 1px solid rgba(0, 255, 136, 0.2);
+		border-radius: 20px;
+		overflow: hidden;
+		transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		animation: fadeInUp 0.8s ease backwards;
+		position: relative;
+	}
+
+	.case-card:nth-child(1) { animation-delay: 0.1s; }
+	.case-card:nth-child(2) { animation-delay: 0.2s; }
+	.case-card:nth-child(3) { animation-delay: 0.3s; }
+
+	.case-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(90deg, var(--primary), transparent);
+		transform: scaleX(0);
+		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		transform-origin: left;
+		z-index: 2;
+	}
+
+	.case-card:hover::before {
+		transform: scaleX(1);
+	}
+
+	.case-card:hover {
+		border-color: rgba(0, 255, 136, 0.5);
+		transform: translateY(-10px);
+		box-shadow: 0 20px 60px rgba(0, 255, 136, 0.15);
+	}
+
+	.case-image {
+		width: 100%;
+		height: 250px;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.08));
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 4rem;
+		border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.case-image::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.1), transparent 70%);
+	}
+
+	.case-content {
+		padding: 35px;
+		position: relative;
+		z-index: 1;
+	}
+
+	.case-company {
+		color: var(--primary);
+		font-weight: 700;
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin-bottom: 10px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.case-company::before {
+		content: '';
+		width: 6px;
+		height: 6px;
+		background: var(--primary);
+		border-radius: 50%;
+	}
+
+	.case-card h3 {
+		margin-bottom: 15px;
+		color: var(--white);
+	}
+
+	.case-card p {
+		color: var(--text-light);
+		font-size: 0.95rem;
+		margin-bottom: 20px;
+	}
+
+	.case-result {
+		padding-top: 20px;
+		border-top: 1px solid rgba(0, 255, 136, 0.2);
+		color: var(--primary);
+		font-weight: 700;
+		font-size: 0.95rem;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.case-result::before {
+		content: '↑';
+		font-size: 1.2rem;
+	}
+
+	/* TESTIMONIALS */
+	.testimonials {
+		padding: 100px 0;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
+		border-top: 1px solid rgba(0, 255, 136, 0.15);
+	}
+
+	.testimonials-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 30px;
+	}
+
+	.testimonial-card {
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 100%);
+		border: 1px solid rgba(0, 255, 136, 0.2);
+		border-left: 4px solid var(--primary);
+		border-radius: 15px;
+		padding: 30px;
+		position: relative;
+		transition: all 0.4s ease;
+		animation: fadeInUp 0.8s ease backwards;
+	}
+
+	.testimonial-card:nth-child(1) { animation-delay: 0.1s; }
+	.testimonial-card:nth-child(2) { animation-delay: 0.2s; }
+	.testimonial-card:nth-child(3) { animation-delay: 0.3s; }
+	.testimonial-card:nth-child(4) { animation-delay: 0.1s; }
+	.testimonial-card:nth-child(5) { animation-delay: 0.2s; }
+	.testimonial-card:nth-child(6) { animation-delay: 0.3s; }
+
+	.testimonial-card::before {
+		content: '"';
+		position: absolute;
+		top: -10px;
+		left: 20px;
+		font-size: 4rem;
+		color: rgba(0, 255, 136, 0.1);
+		font-weight: 900;
+	}
+
+	.testimonial-card:hover {
+		border-color: rgba(0, 255, 136, 0.5);
+		transform: translateY(-5px);
+		box-shadow: 0 15px 40px rgba(0, 255, 136, 0.1);
+	}
+
+	.testimonial-text {
+		color: var(--text-light);
+		font-size: 0.95rem;
+		margin-bottom: 25px;
+		line-height: 1.8;
+		font-style: italic;
+		position: relative;
+		z-index: 1;
+	}
+
+	.testimonial-author {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+	}
+
+	.author-avatar {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		color: var(--dark);
+		font-size: 0.9rem;
+		box-shadow: 0 8px 20px rgba(0, 255, 136, 0.2);
+	}
+
+	.author-info h4 {
+		margin-bottom: 5px;
+		color: var(--white);
+		font-size: 1rem;
+	}
+
+	.author-info p {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		margin: 0;
+	}
+
+	/* PRICING */
+	.pricing {
+		padding: 100px 0;
+		border-top: 1px solid rgba(0, 255, 136, 0.15);
+		border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+	}
+
+	.pricing-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 30px;
+		max-width: 1100px;
+		margin: 0 auto;
+	}
+
+	.pricing-card {
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 100%);
+		border: 2px solid rgba(0, 255, 136, 0.2);
+		border-radius: 20px;
+		padding: 40px 30px;
+		text-align: center;
+		position: relative;
+		transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		animation: fadeInUp 0.8s ease backwards;
+	}
+
+	.pricing-card:nth-child(1) { animation-delay: 0.1s; }
+	.pricing-card:nth-child(2) { animation-delay: 0.2s; }
+	.pricing-card:nth-child(3) { animation-delay: 0.3s; }
+
+	.pricing-card.featured {
+		border-color: var(--primary);
+		transform: scale(1.08);
+		box-shadow: 0 30px 80px rgba(0, 255, 136, 0.2);
+	}
+
+	.pricing-card.featured::before {
+		content: 'POPULAR';
+		position: absolute;
+		top: -15px;
+		left: 50%;
+		transform: translateX(-50%);
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		color: var(--dark);
+		padding: 8px 20px;
+		border-radius: 50px;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 1px;
+		box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+	}
+
+	.pricing-card:hover {
+		border-color: rgba(0, 255, 136, 0.5);
+		box-shadow: 0 20px 60px rgba(0, 255, 136, 0.15);
+		transform: translateY(-8px) scale(1.02);
+	}
+
+	.pricing-card.featured:hover {
+		transform: translateY(-8px) scale(1.1);
+	}
+
+	.pricing-card h3 {
+		margin-bottom: 25px;
+		color: var(--primary);
+		font-size: 1.3rem;
+	}
+
+	.pricing-value {
+		font-size: 3rem;
+		color: var(--white);
+		margin-bottom: 10px;
+		font-family: 'Poppins', sans-serif;
+		font-weight: 800;
+	}
+
+	.pricing-period {
+		color: var(--text-muted);
+		margin-bottom: 35px;
+		font-size: 0.9rem;
+	}
+
+	.pricing-features {
+		list-style: none;
+		margin-bottom: 35px;
+		text-align: left;
+		height: 280px;
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.pricing-features li {
+		padding: 12px 0;
+		border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+		color: var(--text-light);
+		font-size: 0.9rem;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.pricing-features li::before {
+		content: '✓';
+		color: var(--primary);
+		font-weight: 900;
+		font-size: 1.1rem;
+	}
+
+	/* CTA */
+	.cta {
+		padding: 100px 0;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+		text-align: center;
+		border-top: 2px solid rgba(0, 255, 136, 0.3);
+		animation: fadeInUp 0.8s ease;
+	}
+
+	.cta h2 {
+		margin-bottom: 20px;
+		background: linear-gradient(135deg, var(--white) 0%, var(--primary-light) 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.cta p {
+		font-size: 1.1rem;
+		margin-bottom: 40px;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* FAQ */
+	.faq {
+		padding: 100px 0;
+		background: linear-gradient(135deg, rgba(0, 255, 136, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
+		border-bottom: 1px solid rgba(0, 255, 136, 0.15);
+	}
+
+	.faq-container {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	.faq-item {
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.05) 100%);
+		border: 1px solid rgba(0, 255, 136, 0.2);
+		border-radius: 15px;
+		margin-bottom: 20px;
+		overflow: hidden;
+		animation: fadeInUp 0.8s ease backwards;
+		transition: all 0.3s ease;
+	}
+
+	.faq-item:nth-child(1) { animation-delay: 0.1s; }
+	.faq-item:nth-child(2) { animation-delay: 0.15s; }
+	.faq-item:nth-child(3) { animation-delay: 0.2s; }
+	.faq-item:nth-child(4) { animation-delay: 0.25s; }
+	.faq-item:nth-child(5) { animation-delay: 0.3s; }
+
+	.faq-item:hover {
+		border-color: rgba(0, 255, 136, 0.4);
+		box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+	}
+
+	.faq-question {
+		padding: 25px;
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-weight: 600;
+		color: var(--primary);
+		user-select: none;
+		transition: all 0.3s ease;
+	}
+
+	.faq-question:hover {
+		background: rgba(0, 255, 136, 0.08);
+	}
+
+	.faq-icon {
+		transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		font-size: 0.9rem;
+	}
+
+	.faq-item.active .faq-icon {
+		transform: rotate(180deg);
+	}
+
+	.faq-answer {
+		display: none;
+		padding: 0 25px 25px 25px;
+		border-top: 1px solid rgba(0, 255, 136, 0.15);
+		color: var(--text-light);
+		background: rgba(0, 0, 0, 0.3);
+		animation: slideDown 0.3s ease;
+	}
+
+	.faq-item.active .faq-answer {
+		display: block;
+	}
+
+	/* FOOTER */
+	footer {
+		background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(0, 255, 136, 0.02) 100%);
+		border-top: 2px solid rgba(0, 255, 136, 0.3);
+		padding: 60px 0 20px;
+		margin-top: 100px;
+	}
+
+	.footer-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 50px;
+		margin-bottom: 50px;
+	}
+
+	.footer-col h3 {
+		color: var(--primary);
+		margin-bottom: 20px;
+		font-size: 0.95rem;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: 1px;
+	}
+
+	.footer-col ul {
+		list-style: none;
+	}
+
+	.footer-col ul li {
+		margin-bottom: 15px;
+	}
+
+	.footer-col a {
+		color: var(--text-light);
+		font-size: 0.9rem;
+		transition: all 0.3s ease;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.footer-col a:hover {
+		color: var(--primary);
+		transform: translateX(5px);
+	}
+
+	.footer-bottom {
+		text-align: center;
+		padding-top: 30px;
+		border-top: 1px solid rgba(0, 255, 136, 0.15);
+		color: var(--text-muted);
+		font-size: 0.85rem;
+	}
+
+	/* FLOATING */
+	.floating-btn {
+		position: fixed;
+		bottom: 30px;
+		right: 30px;
+		width: 70px;
+		height: 70px;
+		background: linear-gradient(135deg, var(--primary), var(--primary-light));
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.8rem;
+		cursor: pointer;
+		z-index: 999;
+		box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+		border: none;
+		transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+		animation: bounce 2s infinite;
+	}
+
+	@keyframes bounce {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-10px); }
+	}
+
+	.floating-btn:hover {
+		transform: translateY(-10px) scale(1.15);
+		box-shadow: 0 20px 60px rgba(0, 255, 136, 0.5);
+	}
+
+	/* RESPONSIVE */
+	@media (max-width: 768px) {
+		nav {
+			display: none;
+		}
+
+		.hero-content {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-visual {
+			height: 300px;
+		}
+
+		.hero-card-1 {
+			width: 200px;
+			height: 200px;
+		}
+
+		.stats-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.features-content {
+			grid-template-columns: 1fr;
+			gap: 40px;
+		}
+
+		.features-image {
+			height: 350px;
+		}
+
+		.solutions-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.cases-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.pricing-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.pricing-card.featured {
+			transform: scale(1);
+		}
+
+		.pricing-card.featured:hover {
+			transform: translateY(-8px) scale(1);
+		}
+
+		.testimonials-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.footer-grid {
+			grid-template-columns: 1fr;
+			gap: 30px;
+		}
+
+		.floating-btn {
+			width: 60px;
+			height: 60px;
+			font-size: 1.5rem;
+			bottom: 20px;
+			right: 20px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		h1 { font-size: 1.8rem; }
+		h2 { font-size: 1.3rem; }
+
+		.hero {
+			margin-top: 80px;
+			padding: 60px 0 40px;
+		}
+
+		.stats-grid {
+			grid-template-columns: 1fr;
+			gap: 20px;
+		}
+
+		.stat-item h3 {
+			font-size: 2rem;
+		}
+
+		.solutions {
+			padding: 60px 0;
+		}
+
+		.features {
+			padding: 60px 0;
+		}
+
+		.cases {
+			padding: 60px 0;
+		}
+
+		.pricing {
+			padding: 60px 0;
+		}
+
+		.section-header {
+			margin-bottom: 50px;
+		}
+	}
+	</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+	<div class="header-content">
+		<div class="logo">EntreguX</div>
+		<nav>
+			<a href="#solucoes">Soluções</a>
+			<a href="#recursos">Recursos</a>
+			<a href="#cases">Clientes</a>
+			<a href="#precos">Preços</a>
+			<a href="#faq">FAQ</a>
+		</nav>
+		<button class="cta-btn">Contato</button>
+	</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+	<div class="container">
+		<div class="hero-content">
+			<div class="hero-text">
+				<h1>Entrega Inteligente com IA em Tempo Real</h1>
+				<p>Revolucione sua operação de delivery com tecnologia de ponta. Otimize rotas, gerencie frota e motoristas, acompanhe entregas com rastreamento GPS real-time. Tudo integrado em uma única plataforma inteligente.</p>
+				<div class="hero-cta">
+					<button class="cta-btn">Começar Teste Grátis</button>
+					<button class="cta-btn btn-secondary">Ver Demonstração</button>
+				</div>
+			</div>
+			<div class="hero-visual">
+				<div class="hero-card hero-card-1">📦</div>
+				<div class="hero-card hero-card-2">🚚</div>
+				<div class="hero-card hero-card-3">⚡</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+	<div class="container">
+		<div class="stats-grid">
+			<div class="stat-item">
+				<h3>350M+</h3>
+				<p>Entregas por Ano</p>
+			</div>
+			<div class="stat-item">
+				<h3>500+</h3>
+				<p>Empresas Ativas</p>
+			</div>
+			<div class="stat-item">
+				<h3>99.9%</h3>
+				<p>Uptime Garantido</p>
+			</div>
+			<div class="stat-item">
+				<h3>24/7</h3>
+				<p>Suporte Premium</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="solutions" id="solucoes">
+	<div class="container">
+		<div class="section-header">
+			<h2>Todas as Soluções que sua Empresa Precisa</h2>
+			<p>Independente do tamanho da operação, temos a tecnologia ideal para suas entregas</p>
+		</div>
+
+		<div class="solutions-grid">
+			<div class="solution-card">
+				<div class="solution-icon">🚚</div>
+				<h3>Delivery Express</h3>
+				<p>Sistema completo para entregas rápidas. Rastreamento em tempo real, notificações automáticas e confirmação digital com foto ou assinatura.</p>
+			</div>
+
+			<div class="solution-card">
+				<div class="solution-icon">🛵</div>
+				<h3>Motoboys & Couriers</h3>
+				<p>Plataforma especializada para motoboys e couriers. Despacho inteligente, rotas otimizadas e controle de horários em tempo real.</p>
+			</div>
+
+			<div class="solution-card">
+				<div class="solution-icon">🌍</div>
+				<h3>Logística Regional</h3>
+				<p>Gestão avançada para múltiplos estados. Integração com centros de distribuição e transferência de cargas com controle centralizado.</p>
+			</div>
+
+			<div class="solution-card">
+				<div class="solution-icon">🍔</div>
+				<h3>Food Delivery</h3>
+				<p>Sistema especializado para restaurantes e pizzarias. Integração com cardápio, promoções e gerenciamento automático de pedidos.</p>
+			</div>
+
+			<div class="solution-card">
+				<div class="solution-icon">📱</div>
+				<h3>Marketplace Próprio</h3>
+				<p>Crie seu aplicativo de entregas com branding completo. White Label 100% customizável para iOS e Android.</p>
+			</div>
+
+			<div class="solution-card">
+				<div class="solution-icon">📦</div>
+				<h3>E-commerce & Logística</h3>
+				<p>Integração completa com principais e-commerces. Automação de pedidos, separação inteligente e entregas coordenadas.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="recursos">
+	<div class="container">
+		<div class="features-content">
+			<div>
+				<h2>Tecnologia Proprietária com Suporte 24/7</h2>
+				<p>Desenvolvida por especialistas em logística com 15+ anos de experiência. Infraestrutura cloud escalável, API aberta e integrações com todos os principais sistemas.</p>
+
+				<ul class="features-list">
+					<li>API aberta para integrações customizadas</li>
+					<li>White Label 100% personalizável</li>
+					<li>Dashboard com BI e relatórios em tempo real</li>
+					<li>Apps nativos iOS e Android com sincronização</li>
+					<li>Rastreamento GPS com precisão 5-10 metros</li>
+					<li>Certificação ISO 27001 e conformidade LGPD</li>
+					<li>Automação inteligente de rotas com IA</li>
+					<li>Integração com transportadoras e ERPs</li>
+					<li>Backups automáticos e 99.9% uptime</li>
+					<li>Suporte SLA 1h para clientes Enterprise</li>
+				</ul>
+			</div>
+
+			<div class="features-image">💻</div>
+		</div>
+	</div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="cases">
+	<div class="container">
+		<div class="section-header">
+			<h2>Histórias de Sucesso Real</h2>
+			<p>Empresas que cresceram exponencialmente com a EntreguX</p>
+		</div>
+
+		<div class="cases-grid">
+			<div class="case-card">
+				<div class="case-image">📈</div>
+				<div class="case-content">
+					<p class="case-company">DeliveryPro - São Paulo</p>
+					<h3>De 50 para 5 mil entregas por dia</h3>
+					<p>Pequena operação que escalou 10.000% em 12 meses usando a plataforma EntreguX e otimização de rotas inteligente com IA.</p>
+					<p class="case-result">Crescimento de 10.000%</p>
+				</div>
+			</div>
+
+			<div class="case-card">
+				<div class="case-image">💰</div>
+				<div class="case-content">
+					<p class="case-company">RapidoExpress - Curitiba</p>
+					<h3>35% de redução em custos operacionais</h3>
+					<p>Otimização de rotas reduziu consumo de combustível em 35% e diminuiu horas ociosas dos motoristas drasticamente.</p>
+					<p class="case-result">Economia de R$ 180 mil/mês</p>
+				</div>
+			</div>
+
+			<div class="case-card">
+				<div class="case-image">🌟</div>
+				<div class="case-content">
+					<p class="case-company">LogiMax - Rio de Janeiro</p>
+					<h3>Expansão para 3 estados simultâneos</h3>
+					<p>Escalabilidade da plataforma permitiu expansão multiestado mantendo controle centralizado total da operação.</p>
+					<p class="case-result">Receita +280% em 18 meses</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+	<div class="container">
+		<div class="section-header">
+			<h2>O Que Nossos Clientes Falam</h2>
+			<p>Feedback real de empresas que confiam em nossa plataforma</p>
+		</div>
+
+		<div class="testimonials-grid">
+			<div class="testimonial-card">
+				<p class="testimonial-text">EntreguX foi transformador. Planejamento de rotas que levava 8 horas agora leva 2 minutos. Motoristas adoram o app e clientes têm transparência total.</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">MP</div>
+					<div class="author-info">
+						<h4>Marcio Pereira</h4>
+						<p>Fundador - DeliveryPro</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<p class="testimonial-text">Suporte impecável com SLA garantido de 1 hora para problemas críticos. Entendem de verdade os desafios de uma operação de delivery real.</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">CA</div>
+					<div class="author-info">
+						<h4>Carolina Alves</h4>
+						<p>Gerente Geral - RapidoExpress</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<p class="testimonial-text">Integração com nossa base de dados foi seamless. API bem documentada. Em 2 dias implementamos integração completa com nosso ERP legado.</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">RB</div>
+					<div class="author-info">
+						<h4>Roberto Brito</h4>
+						<p>CTO - LogiMax Group</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<p class="testimonial-text">Reduzimos tempo de entrega em 40% e satisfação do cliente alcançou 4.9/5 estrelas. Dashboards de BI nos ajudam com decisões baseadas em dados.</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">JL</div>
+					<div class="author-info">
+						<h4>Juliana Lima</h4>
+						<p>Diretora de Operações - MegaEntrega</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<p class="testimonial-text">Migramos de solução cara e obsoleta. EntreguX é 60% mais barata, rápida e com mais funcionalidades. ROI alcançado em 3 meses!</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">FM</div>
+					<div class="author-info">
+						<h4>Felipe Martins</h4>
+						<p>Owner - VeloExpress</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="testimonial-card">
+				<p class="testimonial-text">Atualizações automáticas sem downtime nunca. Implementam features toda segunda-feira sem afetar operações. Profissionalismo classe A!</p>
+				<div class="testimonial-author">
+					<div class="author-avatar">TK</div>
+					<div class="author-info">
+						<h4>Thiago Kovacs</h4>
+						<p>Analista Sênior - FastDist</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precos">
+	<div class="container">
+		<div class="section-header">
+			<h2>Planos Transparentes e Acessíveis</h2>
+			<p>Escolha o plano que se adequa perfeitamente ao tamanho da sua operação</p>
+		</div>
+
+		<div class="pricing-grid">
+			<div class="pricing-card">
+				<h3>Startup</h3>
+				<div class="pricing-value">R$ 1.490</div>
+				<p class="pricing-period">/mês</p>
+				<ul class="pricing-features">
+					<li>Até 500 entregas/mês</li>
+					<li>1 admin + 2 usuários</li>
+					<li>App para motoristas</li>
+					<li>Rastreamento GPS</li>
+					<li>Relatórios básicos</li>
+					<li>1 integração</li>
+				</ul>
+				<button class="cta-btn btn-secondary">Escolher Plano</button>
+			</div>
+
+			<div class="pricing-card featured">
+				<h3>Professional</h3>
+				<div class="pricing-value">R$ 4.990</div>
+				<p class="pricing-period">/mês</p>
+				<ul class="pricing-features">
+					<li>Até 5 mil entregas/mês</li>
+					<li>5 admins + 20 usuários</li>
+					<li>App completo para motoristas</li>
+					<li>BI avançado e relatórios</li>
+					<li>Suporte 24/7 via chat</li>
+					<li>Até 5 integrações</li>
+				</ul>
+				<button class="cta-btn">Começar Agora</button>
+			</div>
+
+			<div class="pricing-card">
+				<h3>Enterprise</h3>
+				<div class="pricing-value">Customizado</div>
+				<p class="pricing-period">Consulte especialistas</p>
+				<ul class="pricing-features">
+					<li>Entregas ilimitadas</li>
+					<li>Usuários ilimitados</li>
+					<li>White Label completo</li>
+					<li>BI integrado avançado</li>
+					<li>SLA 1h crítico 24/7</li>
+					<li>Integrações ilimitadas</li>
+				</ul>
+				<button class="cta-btn btn-secondary">Conversar Especialista</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+	<div class="container">
+		<div class="section-header">
+			<h2>Perguntas Frequentes</h2>
+			<p>Tudo que você precisa saber sobre EntreguX</p>
+		</div>
+
+		<div class="faq-container">
+			<div class="faq-item">
+				<div class="faq-question">
+					<span>Como funciona a ativação da plataforma?</span>
+					<span class="faq-icon">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>Após contratação, você recebe acesso em menos de 1 hora. Nossa equipe faz onboarding completo em 5 dias úteis: cadastro de dados, setup de rotas, integração com sistemas legado e treinamento dos usuários.</p>
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question">
+					<span>Posso migrar de outra plataforma?</span>
+					<span class="faq-icon">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>Sim! Fazemos migração assistida com zero perda de dados. Nossa equipe migra histórico de entregas, dados de clientes, motoristas e operações sem afetar seu funcionamento.</p>
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question">
+					<span>Qual a precisão do rastreamento GPS?</span>
+					<span class="faq-icon">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>Precisão de 5-10 metros em ambiente urbano. Utilizamos múltiplos provedores (Google Maps, Mapbox, OpenStreetMaps). Rastreamento atualizado a cada 30 segundos com histórico completo de rotas.</p>
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question">
+					<span>Que tipo de suporte técnico oferece?</span>
+					<span class="faq-icon">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>Suporte 24/7 via chat, email, telefone e WhatsApp. SLA garante resposta em 1 hora para problemas críticos. Clientes Enterprise têm account manager dedicado.</p>
+				</div>
+			</div>
+
+			<div class="faq-item">
+				<div class="faq-question">
+					<span>A plataforma é customizável?</span>
+					<span class="faq-icon">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>Sim! White Label completo com customização de cores, logotipo, domínio próprio e funcionalidades específicas conforme necessidade. Oferecemos planos básico, profissional e enterprise.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+	<div class="container">
+		<h2>Comece a Revolucionar Suas Entregas Hoje</h2>
+		<p>Teste grátis por 14 dias sem necessidade de cartão de crédito. Acesso completo a todas as funcionalidades da plataforma.</p>
+		<button class="cta-btn">Iniciar Teste Grátis</button>
+	</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+	<div class="container">
+		<div class="footer-grid">
+			<div class="footer-col">
+				<h3>EntreguX</h3>
+				<p>Plataforma inteligente de delivery que revoluciona logística e entregas no Brasil. Tecnologia de ponta para seu sucesso.</p>
+			</div>
+
+			<div class="footer-col">
+				<h3>Produto</h3>
+				<ul>
+					<li><a href="#solucoes">→ Soluções</a></li>
+					<li><a href="#recursos">→ Recursos</a></li>
+					<li><a href="#precos">→ Preços</a></li>
+					<li><a href="#cases">→ Casos de Sucesso</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h3>Empresa</h3>
+				<ul>
+					<li><a href="#sobre">→ Sobre Nós</a></li>
+					<li><a href="#blog">→ Blog</a></li>
+					<li><a href="#careers">→ Carreiras</a></li>
+					<li><a href="#contato">→ Contato</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h3>Legal</h3>
+				<ul>
+					<li><a href="#privacidade">→ Privacidade</a></li>
+					<li><a href="#termos">→ Termos</a></li>
+					<li><a href="#lgpd">→ LGPD</a></li>
+					<li><a href="#seguranca">→ Segurança</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h3>Suporte</h3>
+				<ul>
+					<li><a href="#docs">→ Documentação</a></li>
+					<li><a href="#api">→ API Reference</a></li>
+					<li><a href="#status">→ Status</a></li>
+					<li><a href="#community">→ Comunidade</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<p>&copy; 2026 EntreguX Tecnologia. Todos os direitos reservados.</p>
+		</div>
+	</div>
+</footer>
+
+<!-- FLOATING -->
+<button class="floating-btn">💬</button>
+
+<!-- SCRIPTS -->
+<script>
+	document.querySelectorAll('.faq-question').forEach(question => {
+		question.addEventListener('click', () => {
+			const faqItem = question.parentElement;
+			const isActive = faqItem.classList.contains('active');
+			
+			document.querySelectorAll('.faq-item').forEach(item => {
+				item.classList.remove('active');
+			});
+			
+			if (!isActive) {
+				faqItem.classList.add('active');
+			}
+		});
+	});
+
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function (e) {
+			e.preventDefault();
+			const target = document.querySelector(this.getAttribute('href'));
+			if (target) {
+				target.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start'
+				});
+			}
+		});
+	});
+
+	window.addEventListener('scroll', () => {
+		const header = document.querySelector('header');
+		if (window.scrollY > 50) {
+			header.style.background = 'rgba(0, 0, 0, 0.95)';
+			header.style.backdropFilter = 'blur(20px)';
+		} else {
+			header.style.background = 'rgba(0, 0, 0, 0.7)';
+			header.style.backdropFilter = 'blur(10px)';
+		}
+	});
+</script>
+
+</body>
+</html>
