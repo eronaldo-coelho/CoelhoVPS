@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://coelhovps.com.br/sitemap.xml

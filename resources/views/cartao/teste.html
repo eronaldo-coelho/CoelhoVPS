@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste 100% Fiel à Documentação MP</title>
+    <!-- 1. Importar MercadoPago.js -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+
+    <h1>Formulário de Pagamento</h1>
+    <p>Este é um teste mínimo para validar a renderização do CardForm.</p>
+
+    <!-- 3. Adicionar formulário de pagamento (HTML da documentação) -->
+    <style>
+        #form-checkout {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+        /* Ajuste mínimo para o container ser visível e funcional */
+        .container {
+            height: 40px; /* Aumentado de 18px para 40px para melhor visualização */
+            border: 1px solid rgb(118, 118, 118);
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        input, select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #009ee3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <form id="form-checkout">
+        <div id="form-checkout__cardNumber" class="container"></div>
+        <div id="form-checkout__expirationDate" class="container"></div>
+        <div id="form-checkout__securityCode" class="container"></div>
+        <input type="text" id="form-checkout__cardholderName" placeholder="Titular do cartão" />
+        <input type="email" id="form-checkout__cardholderEmail" placeholder="E-mail" />
+        <select id="form-checkout__issuer"></select>
+        <select id="form-checkout__installments"></select>
+        <select id="form-checkout__identificationType"></select>
+        <input type="text" id="form-checkout__identificationNumber" placeholder="Número do documento" />
+
+        <button type="submit" id="form-checkout__submit">Pagar</button>
+        <progress value="0" class="progress-bar" style="width: 100%; display: none;">Carregando...</progress>
+    </form>
+
+    <script>
+        // 2. Configurar credenciais
+        const mp = new MercadoPago("TEST-a451e199-f1fb-4fe0-b4f7-8e9d333dee7e", {
+            locale: 'pt-BR'
+        });
+
+        // 4. Inicializar formulário de pagamento
+        const cardForm = mp.cardForm({
+            amount: "100.5",
+            iframe: true, // <-- Mantendo o iframe: true que está na doc, é a forma mais segura
+            form: {
+                id: "form-checkout",
+                cardNumber: {
+                    id: "form-checkout__cardNumber",
+                    placeholder: "Número do cartão",
+                },
+                expirationDate: {
+                    id: "form-checkout__expirationDate",
+                    placeholder: "MM/YY",
+                },
+                securityCode: {
+                    id: "form-checkout__securityCode",
+                    placeholder: "Código de segurança",
+                },
+                cardholderName: {
+                    id: "form-checkout__cardholderName",
+                },
+                issuer: {
+                    id: "form-checkout__issuer",
+                    placeholder: "Banco emissor",
+                },
+                installments: {
+                    id: "form-checkout__installments",
+                    placeholder: "Parcelas",
+                },
+                identificationType: {
+                    id: "form-checkout__identificationType",
+                    placeholder: "Tipo de documento",
+                },
+                identificationNumber: {
+                    id: "form-checkout__identificationNumber",
+                },
+                cardholderEmail: {
+                    id: "form-checkout__cardholderEmail",
+                },
+            },
+            callbacks: {
+                onFormMounted: error => {
+                    if (error) return console.warn("Form Mounted handling error: ", error);
+                    console.log("Form mounted");
+                },
+                onSubmit: event => {
+                    event.preventDefault();
+                    console.log("Formulário enviado. Gerando token...");
+                    const cardFormData = cardForm.getCardFormData();
+                    alert("Token gerado! Veja o console.");
+                    console.log("Card Form Data:", cardFormData);
+                },
+                onFetching: (resource) => {
+                    console.log("Fetching resource: ", resource);
+                    const progressBar = document.querySelector(".progress-bar");
+                    progressBar.style.display = 'block';
+                    progressBar.removeAttribute("value");
+                    return () => {
+                        progressBar.style.display = 'none';
+                        progressBar.setAttribute("value", "0");
+                    };
+                }
+            },
+        });
+    </script>
+
+</body>
+</html>
